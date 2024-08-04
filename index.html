@@ -3,47 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Upload and Display</title>
+    <title>Login/Signup</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .upload-container {
-            text-align: center;
-            margin: 20px;
-        }
-        #image-preview {
-            margin-top: 20px;
-            max-width: 100%;
-            max-height: 500px;
-            border: 1px solid #ccc;
-        }
+        /* Add your CSS styles here */
     </style>
 </head>
 <body>
+    <h1>Login/Signup</h1>
+    <div id="auth-form">
+        <form id="login-form">
+            <h2>Login</h2>
+            <label for="login-phone">Phone Number:</label>
+            <input type="text" id="login-phone" required>
+            <label for="login-password">Password:</label>
+            <input type="password" id="login-password" required>
+            <button type="button" onclick="login()">Login</button>
+        </form>
+        <form id="signup-form">
+            <h2>Signup</h2>
+            <label for="signup-phone">Phone Number:</label>
+            <input type="text" id="signup-phone" required>
+            <label for="signup-password">Password:</label>
+            <input type="password" id="signup-password" required>
+            <button type="button" onclick="signup()">Signup</button>
+        </form>
+    </div>
+    <script>
+        // Dummy user storage
+        const users = [];
 
-<div class="upload-container">
-    <h2>Upload an Image</h2>
-    <input type="file" id="image-input" accept="image/*">
-    <br>
-    <img id="image-preview" alt="Image Preview">
-</div>
+        function signup() {
+            const phone = document.getElementById('signup-phone').value;
+            const password = document.getElementById('signup-password').value;
 
-<script>
-    document.getElementById('image-input').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const image = document.getElementById('image-preview');
-                image.src = e.target.result;
-                image.style.display = 'block';
+            // Check if user already exists
+            const existingUser = users.find(user => user.phone === phone);
+            if (existingUser) {
+                alert('User already exists');
+                return;
             }
-            reader.readAsDataURL(file);
-        }
-    });
-</script>
 
+            // Add new user with initial balance
+            users.push({
+                phone: phone,
+                password: password, // In a real app, hash the password
+                balance: 1000
+            });
+            alert('Signup successful');
+        }
+
+        function login() {
+            const phone = document.getElementById('login-phone').value;
+            const password = document.getElementById('login-password').value;
+
+            // Check user credentials
+            const user = users.find(user => user.phone === phone && user.password === password);
+            if (user) {
+                alert(`Login successful. Balance: ${user.balance} INR`);
+            } else {
+                alert('Invalid phone number or password');
+            }
+        }
+    </script>
 </body>
 </html>
