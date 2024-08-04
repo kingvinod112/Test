@@ -18,45 +18,45 @@
 <body>
     <h1>Login/Signup</h1>
     <div id="auth-form">
-        <form id="login-form">
+        <form id="login-form" onsubmit="event.preventDefault(); login();">
             <h2>Login</h2>
             <label for="login-phone">Phone Number:</label>
             <input type="text" id="login-phone" required>
             <label for="login-password">Password:</label>
             <input type="password" id="login-password" required>
-            <button type="button" onclick="login()">Login</button>
+            <button type="submit">Login</button>
         </form>
-        <form id="signup-form">
+        <form id="signup-form" onsubmit="event.preventDefault(); signup();">
             <h2>Signup</h2>
             <label for="signup-phone">Phone Number:</label>
             <input type="text" id="signup-phone" required>
             <label for="signup-password">Password:</label>
             <input type="password" id="signup-password" required>
-            <button type="button" onclick="signup()">Signup</button>
+            <button type="submit">Signup</button>
         </form>
-        <form id="admin-login-form">
+        <form id="admin-login-form" onsubmit="event.preventDefault(); adminLogin();">
             <h2>Admin Login</h2>
             <label for="admin-phone">Phone Number:</label>
             <input type="text" id="admin-phone" required>
             <label for="admin-password">Password:</label>
             <input type="password" id="admin-password" required>
-            <button type="button" onclick="adminLogin()">Admin Login</button>
+            <button type="submit">Admin Login</button>
         </form>
     </div>
     <div id="user-panel">
         <h2>Welcome <span id="user-phone"></span></h2>
         <p>Balance: <span id="balance">0</span> INR</p>
-        <form id="deposit-form">
+        <form id="deposit-form" onsubmit="event.preventDefault(); deposit();">
             <label for="deposit-amount">Deposit Amount:</label>
             <input type="number" id="deposit-amount" min="1" required>
-            <button type="button" onclick="deposit()">Deposit</button>
+            <button type="submit">Deposit</button>
         </form>
-        <form id="withdraw-form">
+        <form id="withdraw-form" onsubmit="event.preventDefault(); withdraw();">
             <label for="withdraw-amount">Withdraw Amount:</label>
             <input type="number" id="withdraw-amount" min="1" required>
             <label for="withdraw-password">Password:</label>
             <input type="password" id="withdraw-password" required>
-            <button type="button" onclick="withdraw()">Withdraw</button>
+            <button type="submit">Withdraw</button>
         </form>
         <button onclick="logout()">Logout</button>
     </div>
