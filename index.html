@@ -3,124 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Calculator with Persistent History</title>
+    <title>Image Upload and Display</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        .calculator {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        input, button {
-            width: calc(25% - 10px);
-            margin: 5px;
-            padding: 10px;
-            font-size: 18px;
+        .upload-container {
             text-align: center;
+            margin: 20px;
         }
-        #expression, #result {
-            width: calc(100% - 22px);
-            margin: 10px 5px;
-            padding: 10px;
-            font-size: 24px;
-        }
-        #history {
-            display: none;
-            max-width: 400px;
-            margin: 20px auto;
+        #image-preview {
+            margin-top: 20px;
+            max-width: 100%;
+            max-height: 500px;
             border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-        #history p {
-            margin: 5px 0;
         }
     </style>
 </head>
 <body>
 
-<div class="calculator">
-    <input type="text" id="expression" placeholder="0" oninput="updateResult()">
-    <input type="text" id="result" placeholder="Result" disabled>
+<div class="upload-container">
+    <h2>Upload an Image</h2>
+    <input type="file" id="image-input" accept="image/*">
     <br>
-    <input type="button" value="7" onclick="appendNumber('7')">
-    <input type="button" value="8" onclick="appendNumber('8')">
-    <input type="button" value="9" onclick="appendNumber('9')">
-    <input type="button" value="/" onclick="appendOperator('/')">
-    <br>
-    <input type="button" value="4" onclick="appendNumber('4')">
-    <input type="button" value="5" onclick="appendNumber('5')">
-    <input type="button" value="6" onclick="appendNumber('6')">
-    <input type="button" value="*" onclick="appendOperator('*')">
-    <br>
-    <input type="button" value="1" onclick="appendNumber('1')">
-    <input type="button" value="2" onclick="appendNumber('2')">
-    <input type="button" value="3" onclick="appendNumber('3')">
-    <input type="button" value="-" onclick="appendOperator('-')">
-    <br>
-    <input type="button" value="0" onclick="appendNumber('0')">
-    <input type="button" value="." onclick="appendNumber('.')">
-    <input type="button" value="C" onclick="clearExpression()">
-    <input type="button" value="+" onclick="appendOperator('+')">
-    <br>
-    <button onclick="showHistory()">Show History</button>
+    <img id="image-preview" alt="Image Preview">
 </div>
 
-<div id="history"></div>
-
 <script>
-    // Load history from localStorage
-    let history = JSON.parse(localStorage.getItem('calcHistory')) || [];
-
-    function appendNumber(number) {
-        document.getElementById('expression').value += number;
-        updateResult();
-    }
-
-    function appendOperator(operator) {
-        document.getElementById('expression').value += ' ' + operator + ' ';
-        updateResult();
-    }
-
-    function clearExpression() {
-        document.getElementById('expression').value = '';
-        document.getElementById('result').value = '';
-    }
-
-    function updateResult() {
-        const expression = document.getElementById('expression').value;
-        try {
-            const result = eval(expression);
-            document.getElementById('result').value = result;
-            if (!isNaN(result) && expression.trim() !== '') {
-                // Store result in history array
-                history.push(`${expression} = ${result}`);
-                // Update localStorage
-                localStorage.setItem('calcHistory', JSON.stringify(history));
+    document.getElementById('image-input').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const image = document.getElementById('image-preview');
+                image.src = e.target.result;
+                image.style.display = 'block';
             }
-        } catch (e) {
-            document.getElementById('result').value = '';
+            reader.readAsDataURL(file);
         }
-    }
-
-    function showHistory() {
-        const historyDiv = document.getElementById('history');
-        historyDiv.innerHTML = '<h2>Calculation History</h2>';
-        if (history.length === 0) {
-            historyDiv.innerHTML += '<p>No history available.</p>';
-        } else {
-            history.forEach((item, index) => {
-                historyDiv.innerHTML += `<p>${index + 1}: ${item}</p>`;
-            });
-        }
-        historyDiv.style.display = 'block';
-    }
+    });
 </script>
 
 </body>
