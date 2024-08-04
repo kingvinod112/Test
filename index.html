@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Calculator with History</title>
+    <title>Dynamic Calculator with Persistent History</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -75,7 +75,8 @@
 <div id="history"></div>
 
 <script>
-    let history = [];
+    // Load history from localStorage
+    let history = JSON.parse(localStorage.getItem('calcHistory')) || [];
 
     function appendNumber(number) {
         document.getElementById('expression').value += number;
@@ -98,7 +99,10 @@
             const result = eval(expression);
             document.getElementById('result').value = result;
             if (!isNaN(result) && expression.trim() !== '') {
+                // Store result in history array
                 history.push(`${expression} = ${result}`);
+                // Update localStorage
+                localStorage.setItem('calcHistory', JSON.stringify(history));
             }
         } catch (e) {
             document.getElementById('result').value = '';
