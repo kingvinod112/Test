@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Calculator</title>
+    <title>Dynamic Calculator with History</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -23,12 +23,23 @@
             font-size: 18px;
             text-align: center;
         }
-        #result {
+        #expression, #result {
             width: calc(100% - 22px);
             margin: 10px 5px;
             padding: 10px;
             font-size: 24px;
-            text-align: right;
+        }
+        #history {
+            display: none;
+            max-width: 400px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        #history p {
+            margin: 5px 0;
         }
     </style>
 </head>
@@ -57,9 +68,15 @@
     <input type="button" value="." onclick="appendNumber('.')">
     <input type="button" value="C" onclick="clearExpression()">
     <input type="button" value="+" onclick="appendOperator('+')">
+    <br>
+    <button onclick="showHistory()">Show History</button>
 </div>
 
+<div id="history"></div>
+
 <script>
+    let history = [];
+
     function appendNumber(number) {
         document.getElementById('expression').value += number;
         updateResult();
@@ -80,9 +97,25 @@
         try {
             const result = eval(expression);
             document.getElementById('result').value = result;
+            if (!isNaN(result) && expression.trim() !== '') {
+                history.push(`${expression} = ${result}`);
+            }
         } catch (e) {
             document.getElementById('result').value = '';
         }
+    }
+
+    function showHistory() {
+        const historyDiv = document.getElementById('history');
+        historyDiv.innerHTML = '<h2>Calculation History</h2>';
+        if (history.length === 0) {
+            historyDiv.innerHTML += '<p>No history available.</p>';
+        } else {
+            history.forEach((item, index) => {
+                historyDiv.innerHTML += `<p>${index + 1}: ${item}</p>`;
+            });
+        }
+        historyDiv.style.display = 'block';
     }
 </script>
 
