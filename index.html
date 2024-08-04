@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Transformation Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        select, button, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Text Transformation Tool</h1>
+    <form id="textForm">
+        <div class="input-group">
+            <label for="userText">Enter your text:</label>
+            <textarea id="userText" rows="5" placeholder="Type your text here..."></textarea>
+        </div>
+        <div class="input-group">
+            <label for="operation">Select operation:</label>
+            <select id="operation">
+                <option value="uppercase">Uppercase</option>
+                <option value="lowercase">Lowercase</option>
+                <option value="camelcase">CamelCase</option>
+                <option value="charcount">Character Count</option>
+                <option value="wordcount">Word Count</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <button type="button" onclick="transformText()">Submit</button>
+            <button type="reset">Reset</button>
+        </div>
+    </form>
+    <div id="result"></div>
+</div>
+
+<script>
+    function transformText() {
+        var userText = document.getElementById('userText').value;
+        var operation = document.getElementById('operation').value;
+        var result = '';
+
+        switch(operation) {
+            case 'uppercase':
+                result = userText.toUpperCase();
+                break;
+            case 'lowercase':
+                result = userText.toLowerCase();
+                break;
+            case 'camelcase':
+                result = toCamelCase(userText);
+                break;
+            case 'charcount':
+                result = 'Character Count: ' + userText.length;
+                break;
+            case 'wordcount':
+                result = 'Word Count: ' + userText.split(/\s+/).filter(word => word).length;
+                break;
+            default:
+                result = 'Please select a valid operation.';
+        }
+
+        document.getElementById('result').innerText = result;
+    }
+
+    function toCamelCase(str) {
+        return str
+            .replace(/\s(.)/g, function(match, group1) {
+                return group1.toUpperCase();
+            })
+            .replace(/\s/g, '')
+            .replace(/^(.)/, function(match, group1) {
+                return group1.toLowerCase();
+            });
+    }
+</script>
+
+</body>
+</html>
