@@ -1,121 +1,129 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./style.css">
-    <title>My Portfolio</title>
+    <title>Sentence Converter</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .btn-custom {
+            background-color: #007BFF;
+            color: #ffffff;
+            border: none;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #28a745;
+            color: #ffffff;
+            border: none;
+        }
+        .btn-secondary:hover {
+           background-color: #218838;
+        }
+        .output-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .output-container {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
 </head>
-
 <body>
+    <div class="container">
+        <h2 class="text-center mb-4">Sentence Converter  <a href="Sentance.html" class="btn btn-secondary ml-2">Back</a></h2>
+        <form id="sentenceForm">
+            <div class="form-group">
+                <label for="sentenceInput">Enter Sentence:</label>
+                <input type="text" id="sentenceInput" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="conversionType">Select Type:</label>
+                <select id="conversionType"  class="form-control">
+                    <option value="" disabled selected>Select type</option>
+                    <option value="uppercase">UpperCase</option>
+                    <option value="lowercase">LowerCase</option>
+                    <option value="camelcase">CamelCase</option>
+                    <option value="charcount">Character Count</option>
+                    <option value="wordcount">Word Count</option>
+                </select>
+            </div>
+            <div class="form-group text-center">
+                <button type="button" class="btn btn-secondary" onclick="transformText()">Submit</button>
+                <a href="Sent.html" class="btn btn-custom ml-2">Refresh</a>
 
-    <header class="header-top">
-        <nav>
-            <ul>
-                <li class="left"><a class="button" href="#">Contact</a></li>
-                <li><a href="#">LinkedIn</a></li>
-                <li><a href="#">Github</a></li>
-                <li><a href="#">About Me</a></li>
-                <li><a href="./portfolio.html">Home</a></li>
-            </ul>
-        </nav>
-
-        <div class="container">
-            <h1>Shifa Mahveen</h1>
-            <p class="content">Learner | Computer Science Engineer | Front End Developer</p>
-            <a href="#" class="button">My Portfolio!</a>
+            </div>
+        </form>
+        <div class="output-container">
+            <div class="result" id="result"></div>
         </div>
+    </div>
 
-    </header>
+    <script>
+        function transformText() {
+            const inputText = document.getElementById('sentenceInput').value;
+            const transformationType = document.getElementById('conversionType').value;
+            let result = '';
 
-    <section class="about-me">
-        <h2>About ME</h2>
-        <div class="about-container">
-            <div class="about-content">
-                <p>My Name is Shifa Mahveen. I am a Computer Science trainee and an active learner. My interest in
-                    Front
-                    End Development has made me learn a lot about web technologies and how they work. I have also
-                    designed few web pages and looking for some more to add in my bucket. Check out some more
-                    information about me!
-                </p>
-                <a href="#" class="button">Portfolio!</a>
-            </div>
+            switch (transformationType) {
+                case 'uppercase':
+                    result = inputText.toUpperCase();
+                    break;
+                case 'lowercase':
+                    result = inputText.toLowerCase();
+                    break;
+                case 'camelcase':
+                    result = toCamelCase(inputText);
+                    break;
+                case 'charcount':
+                    result = `Character Count: ${inputText.length}`;
+                    break;
+                case 'wordcount':
+                    result = `Word Count: ${countWords(inputText)}`;
+                    break;
+                default:
+                    result = 'Please select a valid type';
+                    break;
+            }
 
-            <div class="about-img">
-                <img src="./images/About.jpeg" alt="developer" width="450px" height="350px">
-            </div>
-        </div>
+            document.getElementById('result').innerText = result;
+        }
 
-        <div class="parts-container">
-            <div class="parts">
-                <img src="./images/academic.jpg" alt="academics" width="150px" height="150px">
-                <p class="subheading">Academics</p>
-                <p class="content">Academic performance is a measurement of the achievement. Get to know about my
-                    academic performance and achievements here!</p>
-                <a class="link" href="#">See More</a>
-            </div>
-            <div class="parts">
-                <img src="./images/certification.jpeg" alt="certification" width="175px" height="150px">
-                <p class="subheading">Certifications</p>
-                <p class="content">Here are my certifications from different learning platforms (Coursera, NPTEL and
-                    Udemy). Have a look on them!</p>
-                <a class="link" href="#">See More</a>
-            </div>
-            <div class="parts">
-                <img src="./images/project.jpeg" alt="project" width="175px" height="150px">
-                <p class="subheading">Projects</p>
-                <p class="content">Being a Computer Science Engineer I have done a couple of projects based on web
-                    development and software. Click here to know more about them!</p>
-                <a class="link" href="#">See More</a>
-            </div>
-        </div>
-    </section>
+        function toCamelCase(str) {
+            return str
+                .toLowerCase()
+                .replace(/(?:^|\s|[^\w])(\w)/g, (match, p1) => ` ${p1.toUpperCase()}`)
+                .trim();
+        }
 
-    <hr>
-
-    <section class="why-me">
-        <h2>Why Me??</h2>
-        <div class="why-parts">
-            <div class="why-img">
-                <img src="./images/why-me.jpg" alt="why-me" width="500px" height="450px">
-            </div>
-
-            <div class="why-content">
-                <p>Perseverance and dedication are the most required qualities to work compatibly in any situation.
-                    Apart from my skills in Front End web development I aim to dedicate myself to my work. I am a kind
-                    of personality who is strong in both interpersonal skills and tech skills. On top of that I am an
-                    active learner and seek to learn and explore more and update myself. Moreover here are my linkedin
-                    and github profiles where you can get aware of my achievements.
-                </p>
-                <a href="#" class="link">LinkedIn</a>
-                <a href="#" class="link">Github</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="contact">
-        <div class="contact-container">
-            <h2>CONTACT ME!</h2>
-            <div class="contact-img">
-                <img src="./images/contact.jpg" alt="contact" width="350px" height="300px">
-            </div>
-
-            <div class="contact-info">
-                <h3>Contact Info</h3><br>
-                <p>
-                <ul>
-                    <li>Email : mahveenshifa1611@gmail.com</li><br>
-                    <li>Phone : 9700838397</li><br>
-                    <li>LinkedIn : Shifa Mahveen</li><br>
-                    <li>Github : ShifaMahveen1611</li><br>
-                </ul>
-                </p>
-                <a href="#" class="button">Call</a>
-            </div>
-        </div>
-    </section>
+        function countWords(str) {
+            // Trim the input and replace multiple spaces with a single space
+            const trimmedStr = str.trim().replace(/\s+/g, ' ');
+            // Split by space and count words
+            return trimmedStr === '' ? 0 : trimmedStr.split(' ').length;
+        }
+    </script>
 </body>
-
 </html>
