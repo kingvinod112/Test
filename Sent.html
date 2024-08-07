@@ -56,7 +56,7 @@
         <form id="sentenceForm">
             <div class="form-group">
                 <label for="sentenceInput">Enter Sentence:</label>
-                <input type="text" id="sentenceInput" class="form-control" required>
+                <input type="text" id="sentenceInput" class="form-control" placeholder="Type something...">
             </div>
             <div class="form-group">
                 <label for="conversionType">Select Type:</label>
@@ -69,10 +69,6 @@
                     <option value="wordcount">Word Count</option>
                 </select>
             </div>
-            <div class="form-group text-center">
-                <button type="button" class="btn btn-secondary" onclick="transformText()">Submit</button>
-                <a href="Sent.html" class="btn btn-custom ml-2">Refresh</a>
-            </div>
         </form>
         <div class="output-container">
             <div class="result" id="result">Your result will appear here.</div>
@@ -80,6 +76,9 @@
     </div>
 
     <script>
+        document.getElementById('sentenceInput').addEventListener('input', transformText);
+        document.getElementById('conversionType').addEventListener('change', transformText);
+
         function transformText() {
             const inputText = document.getElementById('sentenceInput').value.trim();
             const transformationType = document.getElementById('conversionType').value;
